@@ -52,17 +52,16 @@ public class SysGeneratorController {
 	 */
 	@RequestMapping("/code")
 	public void code(HttpServletRequest request, HttpServletResponse response) throws IOException{
-		String[] tableNames = new String[]{};
-		String tables = request.getParameter("tables");
-		tableNames = JSON.parseArray(tables).toArray(tableNames);
-		
-		byte[] data = sysGeneratorService.generatorCode(tableNames);
+
+//		tableNames = JSON.parseArray(tables).toArray(tableNames);
+		 String[] tables= {"T_USER"};
+        byte[] data = sysGeneratorService.generatorCode(tables);
 		
 		response.reset();
 		response.setHeader("Content-Disposition", "attachment; filename=\"idcicp.zip\"");
-        response.addHeader("Content-Length", "" + data.length);  
-        response.setContentType("application/octet-stream; charset=UTF-8");  
-  
-        IOUtils.write(data, response.getOutputStream());  
+        response.addHeader("Content-Length", "" + data.length);
+        response.setContentType("application/octet-stream; charset=UTF-8");
+
+        IOUtils.write(data, response.getOutputStream());
 	}
 }

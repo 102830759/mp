@@ -33,11 +33,11 @@ public class GenUtils {
 	public static List<String> getTemplates(){
 		List<String> templates = new ArrayList<String>();
 		templates.add("template/Entity.java.vm");
-		templates.add("template/Dao.java.vm");
-		templates.add("template/Dao.xml.vm");
-		templates.add("template/Service.java.vm");
-		templates.add("template/ServiceImpl.java.vm");
-		templates.add("template/Controller.java.vm");
+//		templates.add("template/Dao.java.vm");
+//		templates.add("template/Dao.xml.vm");
+//		templates.add("template/Service.java.vm");
+//		templates.add("template/ServiceImpl.java.vm");
+//		templates.add("template/Controller.java.vm");
 //		templates.add("template/list.html.vm");
 //		templates.add("template/list.js.vm");
 //		templates.add("template/menu.sql.vm");
@@ -54,8 +54,8 @@ public class GenUtils {
 		boolean hasBigDecimal = false;
 		//表信息
 		TableEntity tableEntity = new TableEntity();
-		tableEntity.setTableName(table.get("tableName"));
-		tableEntity.setComments(table.get("tableComment"));
+		tableEntity.setTableName(table.get("TABLENAME"));
+		tableEntity.setComments(table.get("TABLECOMMENT"));
 		//表名转换成Java类名
 		String className = tableToJava(tableEntity.getTableName(), config.getString("tablePrefix"));
 		tableEntity.setClassName(className);
@@ -65,10 +65,10 @@ public class GenUtils {
 		List<ColumnEntity> columsList = new ArrayList<>();
 		for(Map<String, String> column : columns){
 			ColumnEntity columnEntity = new ColumnEntity();
-			columnEntity.setColumnName(column.get("columnName"));
-			columnEntity.setDataType(column.get("dataType"));
-			columnEntity.setComments(column.get("columnComment"));
-			columnEntity.setExtra(column.get("extra"));
+			columnEntity.setColumnName(column.get("COLUMNNAME"));
+			columnEntity.setDataType(column.get("DATATYPE"));
+			columnEntity.setComments(column.get("COLUMNCOMMENT"));
+			columnEntity.setExtra(column.get("EXTRA"));
 			
 			//列名转换成Java属性名
 			String attrName = columnToJava(columnEntity.getColumnName());
@@ -77,15 +77,21 @@ public class GenUtils {
 			
 			//列的数据类型，转换成Java类型
 			String attrType = config.getString(columnEntity.getDataType(), "unknowType");
+
+
+
 			columnEntity.setAttrType(attrType);
 			if (!hasBigDecimal && attrType.equals("BigDecimal" )) {
 				hasBigDecimal = true;
 			}
 			//是否主键
-			if("PRI".equalsIgnoreCase(column.get("columnKey")) && tableEntity.getPk() == null){
+			if("ID".equalsIgnoreCase(column.get("COLUMNNAME"))){
+                tableEntity.setPk(columnEntity);
+            }
+			if("N".equalsIgnoreCase(column.get("COLUMNKEY")) && tableEntity.getPk() == null){
 				tableEntity.setPk(columnEntity);
 			}
-			
+
 			columsList.add(columnEntity);
 		}
 		tableEntity.setColumns(columsList);
@@ -94,7 +100,7 @@ public class GenUtils {
 		if(tableEntity.getPk() == null){
 			tableEntity.setPk(tableEntity.getColumns().get(0));
 		}
-		
+
 		//设置velocity资源加载器
 		Properties prop = new Properties();  
 		prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");  
@@ -128,7 +134,7 @@ public class GenUtils {
 			StringWriter sw = new StringWriter();
 			Template tpl = Velocity.getTemplate(template, "UTF-8");
 			tpl.merge(context, sw);
-			
+
 			try {
 				//添加到zip
 				zip.putNextEntry(new ZipEntry(getFileName(template, tableEntity.getClassName(), config.getString("package"), config.getString("moduleName"))));

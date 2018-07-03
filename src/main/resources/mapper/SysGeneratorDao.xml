@@ -22,12 +22,13 @@
 	</select> 
 	
 	<select id="queryTable" resultType="java.util.Map">
-		select table_name tableName, engine, table_comment tableComment, create_time createTime from information_schema.tables 
-			where table_schema = (select database()) and table_name = #{tableName}
-	</select> 
+		select table_name tableName,table_type engine,comments tableComment
+			from user_tab_comments
+			where Table_Name=#{tableName}
+	</select>
 	
 	<select id="queryColumns" resultType="java.util.Map">
-		select column_name columnName, data_type dataType, column_comment columnComment, column_key columnKey, extra from information_schema.columns
- 			where table_name = #{tableName} and table_schema = (select database()) order by ordinal_position
+		select c.comments columnComment,  t.column_name columnName, data_type dataType,data_precision,data_scale,t.nullable column_key from user_tab_columns t left join
+		user_col_comments c on t.table_name=c.table_name and t.COLUMN_NAME = c.column_name where t.table_name= #{tableName}
 	</select>
 </mapper>
