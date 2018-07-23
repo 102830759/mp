@@ -1,14 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="${package}.${moduleName}.dao.${className}Dao">
+<mapper namespace="${package}.${moduleName}dao.${className}Dao">
 
 	<!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="${package}.${moduleName}.entity.${className}Entity" id="${classname}Map">
+#set($size = $columns.size())
 #foreach($column in $columns)
         <result property="${column.attrname}" column="${column.columnName}"/>
 #end
     </resultMap>
 
+    <sql id="Base_Column_List">
+#foreach($column in $columns)
+    #if($velocityCount == $size)
+        ${column.columnName}##
+    #else
+        ${column.columnName},##
+    #end
+#end
 
+    </sql>
+    <insert id="insert" parameterType="${package}.${moduleName}.entity.${className}Entity">
+      INSERT INTO ${tableName}(<include refid="Base_Column_List"/>)VALUES (
+#foreach($column in $columns)
+#if($velocityCount == $size)
+        #{${column.attrname},jdbcType=${column.dataType}}
+#else
+        #{${column.attrname},jdbcType=${column.dataType}},
+#end
+#end
+  )
+    </insert>
+
+  <delete id="delete" parameterType="java.lang.String">
+    delete from ${tableName} WHERE ${pk.columnName} = #{${pk.attrname}}
+  </delete>
+
+  <update id="update" parameterType="${package}.${moduleName}.entity.${className}Entity">
+    update ${tableName} set
+#foreach($column in $columns)
+  #if(${column.columnName}!=${pk.columnName})
+      #if($velocityCount == $size)
+        ${column.columnName} = #{${column.attrname},jdbcType=${column.dataType}}
+      #else
+        ${column.columnName} = #{${column.attrname},jdbcType=${column.dataType}},
+      #end
+  #end
+#end
+        WHERE ${pk.columnName} = #{${pk.attrname}}
+  </update>
+
+  <sql id="queryWhere">
+
+  </sql>
+  <select id="selectPageList" parameterType="java.util.Map" resultType="${package}.${moduleName}.entity.${className}Entity">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM (
+    SELECT <include refid="Base_Column_List"/>,ROWNUM RN FROM ${tableName}
+    <where>
+      AND ROWNUM &lt; = \#{end}
+      <include refid="queryWhere"/>
+    </where>
+    )
+    A WHERE RN &gt; #{begin}
+  </select>
+
+  <select id="selectAll" parameterType="java.util.Map" resultType="${package}.${moduleName}.entity.${className}Entity">
+    SELECT <include refid="Base_Column_List"/> FROM ${tableName}
+    <where>
+      <include refid="queryWhere"/>
+    </where>
+  </select>
 </mapper>

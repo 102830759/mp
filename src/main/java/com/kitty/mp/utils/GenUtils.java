@@ -34,7 +34,7 @@ public class GenUtils {
 		List<String> templates = new ArrayList<String>();
 		templates.add("template/Entity.java.vm");
 //		templates.add("template/Dao.java.vm");
-//		templates.add("template/Dao.xml.vm");
+		templates.add("template/Dao.xml.vm");
 //		templates.add("template/Service.java.vm");
 //		templates.add("template/ServiceImpl.java.vm");
 //		templates.add("template/Controller.java.vm");
