@@ -2,14 +2,70 @@ package ${package}.${moduleName}.dao;
 
 import ${package}.${moduleName}.entity.${className}Entity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-
+import java.util.List;
+import java.util.Map;
 /**
  * ${comments}
- * 
+ *
  * @author ${author}
  * @email ${email}
  * @date ${datetime}
  */
 public interface ${className}Dao extends BaseMapper<${className}Entity> {
-	
+
+    /**
+    * 新增
+    *
+    * @param ${classname}Entity
+    * @return
+    */
+    Integer insert(${className}Entity ${classname}Entity);
+
+    /**
+    * 删除
+    *
+    * @param ${pk.attrname}
+    * @return
+    */
+    Integer delete(String ${pk.attrname});
+
+    /**
+    * 修改
+    *
+    * @param ${classname}Entity
+    * @return
+    */
+    Integer update(${className}Entity ${classname}Entity);
+
+    /**
+    * 分页查询
+    *
+    * @param map
+    * @return
+    */
+    List<${className}Entity> selectPageList(Map<String,Object> map);
+
+    /**
+    * 分页查询总条数
+    *
+    * @param map
+    * @return
+    */
+    Integer count(Map<String,Object> map);
+
+    /**
+    * 查询全部
+    *
+    * @param map
+    * @return
+    */
+    List<${className}Entity> selectAll(Map<String,Object> map);
+
+    /**
+    * 详情
+    *
+    * @param ${pk.attrname}
+    * @return
+    */
+    ${className}Entity info(String ${pk.attrname});
 }

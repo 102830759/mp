@@ -38,9 +38,9 @@ public class ${className}Controller {
     @RequestMapping("/list")
     @RequiresPermissions("${moduleName}:${pathName}:list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = ${classname}Service.queryPage(params);
-
-        return R.ok().put("page", page);
+        Page<${className}Entity> ${classname}EntityPage = new Page<${className}Entity>(params);
+        ${classname}Service.selectPageList(${classname}EntityPage);
+        return R.ok().put("data", ${classname}EntityPage);
     }
 
 
@@ -49,8 +49,8 @@ public class ${className}Controller {
      */
     @RequestMapping("/info/{${pk.attrname}}")
     @RequiresPermissions("${moduleName}:${pathName}:info")
-    public R info(@PathVariable("${pk.attrname}") ${pk.attrType} ${pk.attrname}){
-        ${className}Entity ${classname} = ${classname}Service.selectById(${pk.attrname});
+    public R info(@PathVariable("${pk.attrname}") String ${pk.attrname}){
+        ${className}Entity ${classname} = ${classname}Service.info(${pk.attrname});
 
         return R.ok().put("${classname}", ${classname});
     }
@@ -73,7 +73,7 @@ public class ${className}Controller {
     @RequiresPermissions("${moduleName}:${pathName}:update")
     public R update(@RequestBody ${className}Entity ${classname}){
         ValidatorUtils.validateEntity(${classname});
-        ${classname}Service.updateAllColumnById(${classname});//全部更新
+        ${classname}Service.update(${classname});//全部更新
         
         return R.ok();
     }
@@ -84,7 +84,7 @@ public class ${className}Controller {
     @RequestMapping("/delete")
     @RequiresPermissions("${moduleName}:${pathName}:delete")
     public R delete(@RequestBody ${pk.attrType}[] ${pk.attrname}s){
-        ${classname}Service.deleteBatchIds(Arrays.asList(${pk.attrname}s));
+        ${classname}Service.delete(${pk.attrname});
 
         return R.ok();
     }

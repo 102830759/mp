@@ -3,7 +3,7 @@ package ${package}.${moduleName}.service;
 import com.baomidou.mybatisplus.service.IService;
 import ${mainPath}.common.utils.PageUtils;
 import ${package}.${moduleName}.entity.${className}Entity;
-
+import ${package}.${moduleName}.utils.Page;
 import java.util.Map;
 
 /**
@@ -13,8 +13,54 @@ import java.util.Map;
  * @email ${email}
  * @date ${datetime}
  */
-public interface ${className}Service extends IService<${className}Entity> {
+public interface ${className}Service {
 
-    PageUtils queryPage(Map<String, Object> params);
+    /**
+     * 新增
+     *
+     * @param ${classname}Entity
+     * @return
+     */
+    Boolean insert(${className}Entity ${classname}Entity);
+
+    /**
+     * 删除
+     *
+     * @param ${pk.attrname}
+     * @return
+     */
+    Boolean delete(String ${pk.attrname});
+
+    /**
+     * 修改
+     *
+     * @param ${classname}Entity
+     * @return
+     */
+    Boolean update(${className}Entity ${classname}Entity);
+
+    /**
+    * 分页查询
+    *
+    * @param ${classname}EntityPage
+    * @return
+    */
+    Page<${className}Entity> selectPageList(Page<${className}Entity> ${classname}EntityPage);
+
+    /**
+    * 查询全部
+    *
+    * @param map
+    * @return
+    */
+    List<${className}Entity> selectAll(Map<String,Object> map);
+
+    /**
+    * 详情
+    *
+    * @param ${pk.attrname}
+    * @return
+    */
+    ${className}Entity info(String ${pk.attrname});
 }
 

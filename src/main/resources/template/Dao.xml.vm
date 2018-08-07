@@ -54,7 +54,7 @@
   <sql id="queryWhere">
 
   </sql>
-  <select id="selectPageList" parameterType="java.util.Map" resultType="${package}.${moduleName}.entity.${className}Entity">
+  <select id="selectPageList" parameterType="java.util.Map" resultMap="${classname}Map">
     SELECT
     <include refid="Base_Column_List"/>
     FROM (
@@ -67,10 +67,18 @@
     A WHERE RN &gt; #{begin}
   </select>
 
+  <select id="count" parameterType="java.util.Map" resultType="java.lang.Integer">
+    SELECT COUNT(1) FROM ${tableName} <where><include refid="queryWhere"/></where>
+  </select>
+
   <select id="selectAll" parameterType="java.util.Map" resultType="${package}.${moduleName}.entity.${className}Entity">
     SELECT <include refid="Base_Column_List"/> FROM ${tableName}
     <where>
       <include refid="queryWhere"/>
     </where>
+  </select>
+
+  <select id="info" parameterType="java.lang.String" resultMap="${classname}Map">
+    SELECT <include refid="Base_Column_List"/> FROM ${tableName} WHERE ${pk.columnName} = #{${pk.attrname}}
   </select>
 </mapper>

@@ -1,29 +1,82 @@
 package ${package}.${moduleName}.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Map;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
-import ${mainPath}.common.utils.PageUtils;
-import ${mainPath}.common.utils.Query;
 
 import ${package}.${moduleName}.dao.${className}Dao;
 import ${package}.${moduleName}.entity.${className}Entity;
 import ${package}.${moduleName}.service.${className}Service;
-
+import ${package}.${moduleName}.utils.Page;
 
 @Service("${classname}Service")
-public class ${className}ServiceImpl extends ServiceImpl<${className}Dao, ${className}Entity> implements ${className}Service {
+public class ${className}ServiceImpl implements ${className}Service {
 
-    @Override
-    public PageUtils queryPage(Map<String, Object> params) {
-        Page<${className}Entity> page = this.selectPage(
-                new Query<${className}Entity>(params).getPage(),
-                new EntityWrapper<${className}Entity>()
-        );
+    @Autowired
+    private ${className}Dao ${classname}Dao;
 
-        return new PageUtils(page);
+    /**
+     * 新增
+     *
+     * @param ${classname}Entity
+     * @return
+     */
+    Boolean insert(${className}Entity ${classname}Entity){
+        return ${classname}Dao.insert(${classname}Entity) != 0;
     }
 
+    /**
+     * 删除
+     *
+     * @param ${pk.attrname}
+     * @return
+     */
+    Boolean delete(String ${pk.attrname}){
+        return ${classname}Dao.delete(${pk.attrname}) != 0;
+    }
+
+    /**
+     * 修改
+     *
+     * @param ${classname}Entity
+     * @return
+     */
+    Boolean update(${className}Entity ${classname}Entity){
+        return ${classname}Dao.update(${classname}Entity) != 0;
+    }
+
+    /**
+     * 分页查询
+     *
+     * @param ${classname}EntityPage
+     * @return
+     */
+    Page<${className}Entity> selectPageList(Page<${className}Entity> ${classname}EntityPage){
+        ${classname}EntityPage.setRows(${classname}Dao.selectPageList(${classname}EntityPage.getParameter()));
+        ${classname}EntityPage.setTotal(${classname}Dao.count(${classname}EntityPage.getParameter()));
+        return ${classname}EntityPage;
+    }
+
+    /**
+    * 查询全部
+    *
+    * @param map
+    * @return
+    */
+    List<${className}Entity> selectAll(Map<String,Object> map){
+        return ${classname}Dao.selectAll(map);
+    }
+
+    /**
+     * 详情
+     *
+     * @param ${pk.attrname}
+     * @return
+     */
+    ${className}Entity info(String ${pk.attrname}){
+        return ${classname}Dao.info(${pk.attrname});
+    }
 }
