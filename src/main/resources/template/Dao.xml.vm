@@ -7,16 +7,16 @@
     <resultMap type="${package}.${moduleName}.entity.${className}Entity" id="${classname}Map">
 #set($size = $columns.size())
 #foreach($column in $columns)
-        <result property="${column.attrname}" column="${column.columnName}"/>
+        <result property="${column.attrname}" column="${column.columnName}" jdbcType="${column.jdbcType}"/>
 #end
     </resultMap>
 
     <sql id="Base_Column_List">
 #foreach($column in $columns)
     #if($velocityCount == $size)
-        ${column.columnName}##
+        ${column.columnName}
     #else
-        ${column.columnName},##
+        ${column.columnName},
     #end
 #end
 
@@ -25,9 +25,9 @@
       INSERT INTO ${tableName}(<include refid="Base_Column_List"/>)VALUES (
 #foreach($column in $columns)
 #if($velocityCount == $size)
-        #{${column.attrname},jdbcType=${column.dataType}}
+        #{${column.attrname},jdbcType=${column.jdbcType}}
 #else
-        #{${column.attrname},jdbcType=${column.dataType}},
+        #{${column.attrname},jdbcType=${column.jdbcType}},
 #end
 #end
   )
@@ -42,9 +42,9 @@
 #foreach($column in $columns)
   #if(${column.columnName}!=${pk.columnName})
       #if($velocityCount == $size)
-        ${column.columnName} = #{${column.attrname},jdbcType=${column.dataType}}
+        ${column.columnName} = #{${column.attrname},jdbcType=${column.jdbcType}}
       #else
-        ${column.columnName} = #{${column.attrname},jdbcType=${column.dataType}},
+        ${column.columnName} = #{${column.attrname},jdbcType=${column.jdbcType}},
       #end
   #end
 #end

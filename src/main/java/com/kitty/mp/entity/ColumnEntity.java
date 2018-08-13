@@ -20,9 +20,11 @@ public class ColumnEntity {
     //属性名称(第一个字母小写)，如：user_name => userName
     private String attrname;
     //属性类型
-    private String attrType;
+    private String javaType;
     //auto_increment
     private String extra;
+
+    private String jdbcType;
 
     public String getColumnName() {
         return columnName;
@@ -64,12 +66,12 @@ public class ColumnEntity {
         this.attrName = attrName;
     }
 
-    public String getAttrType() {
-        return attrType;
+    public String getJavaType() {
+        return javaType;
     }
 
-    public void setAttrType(String attrType) {
-        this.attrType = attrType;
+    public void setJavaType(String javaType) {
+        this.javaType = javaType;
     }
 
     public String getExtra() {
@@ -78,5 +80,13 @@ public class ColumnEntity {
 
     public void setExtra(String extra) {
         this.extra = extra;
+    }
+
+    public String getJdbcType() {
+        return jdbcType;
+    }
+
+    public void setJdbcType(String jdbcType) {
+        this.jdbcType = jdbcType;
     }
 }
