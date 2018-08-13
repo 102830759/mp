@@ -77,7 +77,7 @@ public class Page<T> implements Serializable {
         parameter.put("current", current);
     }
 
-    public Page(Map<String, Object> parameter){
+    public Page(Map<String, Object> parameter) {
         this.parameter = parameter;
     }
 
