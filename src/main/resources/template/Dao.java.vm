@@ -1,7 +1,7 @@
 package ${package}.${moduleName}.dao;
 
+import org.apache.ibatis.annotations.Mapper;
 import ${package}.${moduleName}.entity.${className}Entity;
-import com.baomidou.mybatisplus.mapper.BaseMapper;
 import java.util.List;
 import java.util.Map;
 /**
@@ -11,6 +11,7 @@ import java.util.Map;
  * @email ${email}
  * @date ${datetime}
  */
+@Mapper
 public interface ${className}Dao extends BaseMapper<${className}Entity> {
 
     /**

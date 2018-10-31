@@ -58,7 +58,7 @@ public class SysGeneratorController {
     public void code(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 //		tableNames = JSON.parseArray(tables).toArray(tableNames);
-        String[] tables = {"T_USER"};
+        String[] tables = {"GL_QL","GL_SD","GL_FWQ","GL_CRK","GL_JTLGCZ"};
         byte[] data = sysGeneratorService.generatorCode(tables);
 
         response.reset();
