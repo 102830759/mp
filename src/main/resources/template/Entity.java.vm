@@ -1,7 +1,5 @@
 package ${package}.${moduleName}.entity;
 
-import com.baomidou.mybatisplus.annotations.TableId;
-import com.baomidou.mybatisplus.annotations.TableName;
 
 #if(${hasBigDecimal})
 import java.math.BigDecimal;
@@ -24,9 +22,6 @@ public class ${className}Entity implements Serializable {
 	/**
 	 * $column.comments
 	 */
-	#if($column.columnName == $pk.columnName)
-@TableId
-	#end
 private $column.javaType $column.attrname;
 #end
 
