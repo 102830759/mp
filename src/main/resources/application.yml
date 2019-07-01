@@ -5,8 +5,8 @@ spring:
     name: mp
   datasource:
     url: jdbc:oracle:thin:@192.168.0.215:1521:orcl
-    username: GISDB_NEIMENG
-    password: GISDB_NEIMENG
+    username: RNMONITOR_NM
+    password: RNMONITOR_NM
     driver-class-name: oracle.jdbc.driver.OracleDriver
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
